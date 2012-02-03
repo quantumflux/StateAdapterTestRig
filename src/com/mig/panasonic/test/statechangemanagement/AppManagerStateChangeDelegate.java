@@ -1,10 +1,8 @@
 package com.mig.panasonic.test.statechangemanagement;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.GUIEventName;
+import com.mig.panasonic.test.statechangemanagement.EventDefinitions.EventName;
 import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateName;
 import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateSetName;
 
@@ -16,7 +14,7 @@ public class AppManagerStateChangeDelegate implements StateChangeRequestListener
 
     public interface AppManagerStateChangeDelegateListener {
 
-        public void requestStateChange(StateSetName origin, GUIEventName event, GUIEventData eventData);
+        public void requestStateChange(StateSetName origin, EventName event, EventData eventData);
 
     }
 

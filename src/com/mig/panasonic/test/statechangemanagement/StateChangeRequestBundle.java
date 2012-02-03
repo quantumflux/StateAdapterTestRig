@@ -2,7 +2,7 @@ package com.mig.panasonic.test.statechangemanagement;
 
 import java.util.HashMap;
 
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.GUIEventName;
+import com.mig.panasonic.test.statechangemanagement.EventDefinitions.EventName;
 import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateName;
 import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateSetName;
 
@@ -15,11 +15,11 @@ public class StateChangeRequestBundle {
 
     private StateSetName mOrigin;
 
-    private GUIEventName mEventName;
+    private EventName mEventName;
 
-    private GUIEventData mEventData;
+    private EventData mEventData;
 
-    public StateChangeRequestBundle(StateSetName origin, HashMap<StateSetName, StateName> currentGUIStates, GUIEventName eventName, GUIEventData eventData) {
+    public StateChangeRequestBundle(StateSetName origin, HashMap<StateSetName, StateName> currentGUIStates, EventName eventName, EventData eventData) {
 
         this.mTimeStamp = System.currentTimeMillis();
 
@@ -42,11 +42,11 @@ public class StateChangeRequestBundle {
         return mOrigin;
     }
 
-    public GUIEventName getEventName() {
+    public EventName getEventName() {
         return mEventName;
     }
 
-    public GUIEventData getEventData() {
+    public EventData getEventData() {
         return mEventData;
     }
 

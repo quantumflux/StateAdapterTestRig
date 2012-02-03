@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.GUIEventName;
+import com.mig.panasonic.test.statechangemanagement.EventDefinitions.EventName;
 import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateName;
 import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateSetName;
 
@@ -55,7 +55,7 @@ public class GUIStateChangeDelegate implements StateChangeListener {
      *            Origin is the originating item containing the item that triggered the event currentGUIState is the full reported state of the GUI at
      *            the point the event was raised target is the event target i.e. an encoding of the target outcome of the event e.g. HOME data is an
      *            encapsulation of the data associated with the event required to accomplish the target outcome */
-    public void setGUIEvent(StateSetName origin, HashMap<StateSetName, StateName> currentGUIStates, GUIEventName eventName, GUIEventData eventData) {
+    public void setGUIEvent(StateSetName origin, HashMap<StateSetName, StateName> currentGUIStates, EventName eventName, EventData eventData) {
 
         // create bundle object
         StateChangeRequestBundle bundle = new StateChangeRequestBundle(origin, currentGUIStates, eventName, eventData);

@@ -2,17 +2,6 @@ package com.mig.panasonic.test;
 
 import java.util.HashMap;
 
-import com.mig.panasonic.test.R;
-import com.mig.panasonic.test.statechangemanagement.AppManagerStateChangeDelegate;
-import com.mig.panasonic.test.statechangemanagement.GUIEventData;
-import com.mig.panasonic.test.statechangemanagement.GUIStateChangeDelegate;
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions;
-import com.mig.panasonic.test.statechangemanagement.AppManagerStateChangeDelegate.AppManagerStateChangeDelegateListener;
-import com.mig.panasonic.test.statechangemanagement.GUIStateChangeDelegate.GUIStateChangeDelegateListener;
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.GUIEventName;
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateName;
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateSetName;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +9,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.mig.panasonic.test.statechangemanagement.AppManagerStateChangeDelegate;
+import com.mig.panasonic.test.statechangemanagement.AppManagerStateChangeDelegate.AppManagerStateChangeDelegateListener;
+import com.mig.panasonic.test.statechangemanagement.EventData;
+import com.mig.panasonic.test.statechangemanagement.GUIStateChangeDelegate;
+import com.mig.panasonic.test.statechangemanagement.GUIStateChangeDelegate.GUIStateChangeDelegateListener;
+import com.mig.panasonic.test.statechangemanagement.StateDefinitions;
+import com.mig.panasonic.test.statechangemanagement.EventDefinitions.EventName;
+import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateName;
+import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateSetName;
 
 public class StateAdapterTestRigActivity extends Activity implements GUIStateChangeDelegateListener, AppManagerStateChangeDelegateListener {
     /** Called when the activity is first created. */
@@ -57,11 +56,15 @@ public class StateAdapterTestRigActivity extends Activity implements GUIStateCha
         mSendEventData = (EditText) this.findViewById(R.id.et_sendeventdata);
 
         mSend = (Button) this.findViewById(R.id.btn_send);
+        mSend.setTag(EventName.PRIMARY_CAROUSEL);
         mSend.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                doSend();
+                
+                EventName eventName = (EventName) v.getTag();
+                
+                doSend(eventName);
             }
             
         });
@@ -98,7 +101,7 @@ public class StateAdapterTestRigActivity extends Activity implements GUIStateCha
     }
     
     
-    private void doSend(){
+    private void doSend(EventName eventName){
         
         int randomStateNameIndex = (int)(Math.random() * this.mStateSetNames.length);
         
@@ -107,9 +110,8 @@ public class StateAdapterTestRigActivity extends Activity implements GUIStateCha
         HashMap<StateSetName, StateName> guiStates = new HashMap<StateSetName, StateName>();
         guiStates.put(randomOrigin, randomOrigin.getState(0));
         
-        GUIEventName eventName = StateDefinitions.GUIEventName.values()[0];
         
-        GUIEventData eventData = new GUIEventData(mSendEventData.getText().toString());
+        EventData eventData = new EventData(mSendEventData.getText().toString());
         
         this.doClear();
         
@@ -141,7 +143,7 @@ public class StateAdapterTestRigActivity extends Activity implements GUIStateCha
     }
 
     @Override
-    public void requestStateChange(StateSetName origin, GUIEventName event, GUIEventData eventData) {
+    public void requestStateChange(StateSetName origin, EventName event, EventData eventData) {
         
         // Extract data from bundle
         String originName = origin.name();

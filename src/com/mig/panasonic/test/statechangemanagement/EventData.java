@@ -7,11 +7,11 @@ package com.mig.panasonic.test.statechangemanagement;
  *         Currently this is the id of the item referred to by the event
  * 
  *         e.g. if the event is associated with a MOVIE_DETAIL event then the id will refer to the specific movie item selected */
-public class GUIEventData {
+public class EventData {
 
     private String mReferencedItemId;
 
-    public GUIEventData(String referencedItemId) {
+    public EventData(String referencedItemId) {
         this.mReferencedItemId = referencedItemId;
     }
 

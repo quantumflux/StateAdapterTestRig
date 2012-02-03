@@ -7,8 +7,9 @@ public class StateDefinitions {
 
     public static enum StateSetName {
 
-        DASHBOARD(new StateName[] { StateName.HIDDEN, StateName.SHOWN }), CONTENT(new StateName[] { StateName.HOME, StateName.MOVIE, StateName.MOVIE_DETAIL, StateName.BOOK, StateName.BOOK_DETAIL }), NAVBAR(new StateName[] { StateName.HIDDEN,
-                StateName.SHOWN });
+        DASHBOARD(new StateName[] { StateName.HIDDEN, StateName.SHOWN }), 
+        CONTENT(new StateName[] { StateName.HOME, StateName.MOVIE, StateName.MOVIE_DETAIL, StateName.BOOK, StateName.BOOK_DETAIL }), 
+        NAVBAR(new StateName[] { StateName.HIDDEN, StateName.SHOWN });
 
         private StateName[] states;
 
@@ -45,11 +46,5 @@ public class StateDefinitions {
         HIDDEN, SHOWN, HOME, MOVIE, MOVIE_DETAIL, BOOK, BOOK_DETAIL
 
     }
-
-    public static enum GUIEventName {
-
-        HIDE, SHOW, HOME, MOVIE, MOVIE_DETAIL, BOOK, BOOK_DETAIL
-
-    }
-
+    
 }

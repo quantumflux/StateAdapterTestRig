@@ -13,7 +13,7 @@ public class StateChangeAdapter {
 
         this.mStateChangeListeners = new ArrayList<StateChangeListener>();
         this.mStateChangeRequestListeners = new ArrayList<StateChangeRequestListener>();
-
+        
     }
 
     public static StateChangeAdapter getInstance() {
