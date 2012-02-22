@@ -1,175 +1,74 @@
 package com.mig.panasonic.test;
 
-import java.util.HashMap;
-
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
-import com.mig.panasonic.test.statechangemanagement.AppManagerStateChangeDelegate;
-import com.mig.panasonic.test.statechangemanagement.AppManagerStateChangeDelegate.AppManagerStateChangeDelegateListener;
-import com.mig.panasonic.test.statechangemanagement.EventData;
-import com.mig.panasonic.test.statechangemanagement.GUIStateChangeDelegate;
-import com.mig.panasonic.test.statechangemanagement.GUIStateChangeDelegate.GUIStateChangeDelegateListener;
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions;
-import com.mig.panasonic.test.statechangemanagement.EventDefinitions.EventName;
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateName;
-import com.mig.panasonic.test.statechangemanagement.StateDefinitions.StateSetName;
+import com.mig.panasonic.statemanagement.FragmentHandler;
+import com.mig.panasonic.statemanagement.FragmentHandler.IFragmentTranstionManager;
+import com.mig.panasonic.statemanagement.GUIStateDefinitions.GUI_STATEFUL_ITEMS;
 
-public class StateAdapterTestRigActivity extends Activity implements GUIStateChangeDelegateListener, AppManagerStateChangeDelegateListener {
-    /** Called when the activity is first created. */
+/**
+ * Test Rig Activity - used to demo the flow through the state change manager
+ * 
+ * @author Alis
+ *
+ */
+public class StateAdapterTestRigActivity extends FragmentActivity implements IFragmentTranstionManager {
+ 
+    private FragmentHandler mFragmentHandler; 
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        this.init();
         
+        mFragmentHandler =  new FragmentHandler(this);
+        
+        Fragment1 frag1 = new Fragment1();
+        
+        frag1.setStateData(null, null);
+        this.doFragmentTransition(GUI_STATEFUL_ITEMS.CONTENT, frag1, 0, 0, true);
+        
+        //FIXME ML -Not sure where to initialise this yet so just put it here
+        StateDecider.getInstance();
     }
     
-    private EditText mSendEventData;
-    
-    private Button mSend;
-    
-    private TextView mOriginName;
-    private TextView mEventName;
-    private TextView mEventData;
-    
-    private TextView mNewStates;
-    private TextView mDataReferences;
-    
-    private Button mClear;
-    
-    private StateName[] mStateNames;
-
-    private GUIStateChangeDelegate mGUIDelegate;
-
-    private AppManagerStateChangeDelegate mManagerDelegate;
-
-    private StateSetName[] mStateSetNames;
-    
-    private void init(){
+    private int getFragmentFrameId(GUI_STATEFUL_ITEMS item) {
         
-        mSendEventData = (EditText) this.findViewById(R.id.et_sendeventdata);
-
-        mSend = (Button) this.findViewById(R.id.btn_send);
-        mSend.setTag(EventName.PRIMARY_CAROUSEL);
-        mSend.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
+        switch(item){
+            case CONTENT:
+                return R.id.ll_content;
+            case DASHBOARD:
                 
-                EventName eventName = (EventName) v.getTag();
+                break;
+            case NAVIGATION:
                 
-                doSend(eventName);
-            }
-            
-        });
+                break;
+        }
         
-        mOriginName = (TextView) this.findViewById(R.id.tv_originname);
-
-        mEventName = (TextView) this.findViewById(R.id.tv_eventname);
-
-        mEventData = (TextView) this.findViewById(R.id.tv_eventdata);
-
-        
-        mNewStates = (TextView) this.findViewById(R.id.tv_newstates);
-
-        mDataReferences = (TextView) this.findViewById(R.id.tv_datareferences);
-        
-        mClear = (Button) this.findViewById(R.id.btn_clear);
-        mClear.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                 doClear();
-            }
-            
-        });
-        
-        this.mStateSetNames = StateDefinitions.StateSetName.values();
-        
-        this.mGUIDelegate = GUIStateChangeDelegate.getInstance();
-        this.mGUIDelegate.registerListener(this);
-        
-        this.mManagerDelegate = AppManagerStateChangeDelegate.getInstance();
-        this.mManagerDelegate.registerListener(this);
-        
-    }
-    
-    
-    private void doSend(EventName eventName){
-        
-        int randomStateNameIndex = (int)(Math.random() * this.mStateSetNames.length);
-        
-        StateSetName randomOrigin = this.mStateSetNames[randomStateNameIndex];
-        
-        HashMap<StateSetName, StateName> guiStates = new HashMap<StateSetName, StateName>();
-        guiStates.put(randomOrigin, randomOrigin.getState(0));
-        
-        
-        EventData eventData = new EventData(mSendEventData.getText().toString());
-        
-        this.doClear();
-        
-        this.mGUIDelegate.setGUIEvent(randomOrigin, guiStates, eventName, eventData);
-        
-    }
-    
-    private void doClear(){
-        
-        this.mSendEventData.setText("");
-        this.mOriginName.setText("");
-        this.mEventName.setText("");
-        this.mNewStates.setText("");
-        this.mDataReferences.setText("");
-        this.mEventData.setText("");
-        
-    }
-    
-    @Override
-    public void changeState(StateSetName statefulItemName, StateName newState, Object dataReference) {
-        
-        // Extract and show data for specific GUI state change
-        String currentNewStates = this.mNewStates.getText().toString();
-        this.mNewStates.setText(currentNewStates + " " + statefulItemName.name() + ":" + newState.name());
-        
-        String currentDataRef = this.mDataReferences.getText().toString();
-        this.mDataReferences.setText(currentDataRef + " " + statefulItemName.name() + ":" + dataReference.toString());
+        return 0;
         
     }
 
     @Override
-    public void requestStateChange(StateSetName origin, EventName event, EventData eventData) {
+    public void doFragmentTransition(GUI_STATEFUL_ITEMS item, StatefulFragment newFragment, int exitAnimationId, int entryAnimationId, boolean addToBackStack) {
         
-        // Extract data from bundle
-        String originName = origin.name();
-        this.mOriginName.setText(originName.toString());
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(this.getFragmentFrameId(item), newFragment);
         
-        String eventName = event.name();
-        this.mEventName.setText(eventName.toString());
+        if (entryAnimationId > 0 && exitAnimationId > 0) {
+            ft.setCustomAnimations(entryAnimationId, exitAnimationId);
+        } else {
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        }
         
-        String data = eventData.getReferencedItemId();
-        this.mEventData.setText(data.toString());
+        if (addToBackStack) ft.addToBackStack(null);
         
-        // Set up sates and data for state change directive call - all fixed data
-        HashMap<StateSetName, StateName>newGUIStates = new HashMap<StateSetName, StateName>();
-        newGUIStates.put(StateSetName.CONTENT, StateName.HOME);
-        newGUIStates.put(StateSetName.DASHBOARD, StateName.SHOWN);
-        newGUIStates.put(StateSetName.NAVBAR, StateName.HIDDEN);
-        
-        HashMap<StateSetName, Object> stateDataReferences = new HashMap<StateDefinitions.StateSetName, Object>();
-        stateDataReferences.put(StateSetName.CONTENT, "");
-        stateDataReferences.put(StateSetName.DASHBOARD, "none");
-        stateDataReferences.put(StateSetName.NAVBAR, "none");
-        
-        this.mManagerDelegate.setStateChangeDirective(newGUIStates, stateDataReferences);
+        ft.commit();
+        ft = null;
         
     }
-    
-    
     
 }
