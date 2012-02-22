@@ -38,13 +38,13 @@ private static StateDecider self;
             case FRAGMENT1:
                 
                 StateChangeBundle f1ChangeBundle = new StateChangeBundle(requestedState, requestedStateId, requestedStateData);
-                StateChangeReceiver.requestStateChange(f1ChangeBundle);
+                StateChangeReceiver.performStateChange(f1ChangeBundle);
                 
                 break;
             case FRAGMENT2:
                 
                 StateChangeBundle f2ChangeBundle = new StateChangeBundle(requestedState, requestedStateId, requestedStateData);
-                StateChangeReceiver.requestStateChange(f2ChangeBundle);
+                StateChangeReceiver.performStateChange(f2ChangeBundle);
                 
                 break;
         }

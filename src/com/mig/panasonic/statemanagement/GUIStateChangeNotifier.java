@@ -19,10 +19,28 @@ public class GUIStateChangeNotifier implements IStateChangeListener {
 
     private ArrayList<IGUIStateChangeNotifierListener> mListeners;
 
-    public GUIStateChangeNotifier() {
+    private static GUIStateChangeNotifier instance;
+    
+    private GUIStateChangeNotifier() {
         this.mListeners = new ArrayList<IGUIStateChangeNotifierListener>();
+        StateChangeReceiver.registerListener(this);
     }
 
+    /**
+     * Get a reference to the singleton instance of this object
+     * 
+     * @return GUIStateChangeNotifier instance
+     */
+    public static GUIStateChangeNotifier getInstance(){
+        
+        if (GUIStateChangeNotifier.instance == null){
+            GUIStateChangeNotifier.instance = new GUIStateChangeNotifier();
+        }
+        
+        return GUIStateChangeNotifier.instance;
+        
+    }
+    
     /** Register a IStateChangeListener object to listen for state change requests
      * 
      * @param listener IGUIStateChangeNotifierListener to register on listener list */

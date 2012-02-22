@@ -26,6 +26,7 @@ public class FragmentHandler implements IGUIStateChangeNotifierListener {
     
     public FragmentHandler(IFragmentTranstionManager transactionManager) {
         this.mTransitionManager = transactionManager;
+        GUIStateChangeNotifier.getInstance().registerListener(this);
     }
 
     @Override

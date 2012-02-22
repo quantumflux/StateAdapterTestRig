@@ -1,13 +1,13 @@
 package com.mig.panasonic.test;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.mig.panasonic.statemanagement.FragmentHandler;
 import com.mig.panasonic.statemanagement.FragmentHandler.IFragmentTranstionManager;
 import com.mig.panasonic.statemanagement.GUIStateDefinitions.GUI_STATEFUL_ITEMS;
+import com.mig.panasonic.statemanagement.StateDecider;
 
 /**
  * Test Rig Activity - used to demo the flow through the state change manager

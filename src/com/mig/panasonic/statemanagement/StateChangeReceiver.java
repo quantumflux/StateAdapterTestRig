@@ -45,7 +45,7 @@ public class StateChangeReceiver {
      * 
      * @param bundle StateChangeBundle defining state change to broadcast to listeners
      */
-    public static void requestStateChange(StateChangeBundle bundle){
+    public static void performStateChange(StateChangeBundle bundle){
         
         synchronized (listeners) {
 

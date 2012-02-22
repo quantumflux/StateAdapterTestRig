@@ -4,20 +4,10 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <fragment
-        android:id="@+id/static_fragment"
-        android:layout_alignParentBottom="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        class="com.mig.panasonic.NavFragment" />
-    
-    
   	<LinearLayout
   	    android:id="@+id/ll_content"
-        android:layout_above="@id/static_fragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
         android:gravity="center"
         android:orientation="horizontal">
 
